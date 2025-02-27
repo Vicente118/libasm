@@ -8,8 +8,8 @@ ft__strcmp:
     mov     rcx, 0
 
 loop:
-    mov     al, BYTE [rdi + rcx]
-    mov     ah, BYTE [rsi + rcx]
+    mov     al, byte [rdi + rcx]
+    mov     ah, byte [rsi + rcx]
     cmp     al, ah
     jne     diff
     cmp     al, 0

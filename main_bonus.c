@@ -1,6 +1,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include <stdlib.h>
 
 typedef struct s_list
 {
@@ -37,7 +38,7 @@ int main()
     t_list  *ptr_to_node_1 = &node_1;
     char    *content       = strdup("Content 0");
 
-    ft__list__push__front(ptr_to_node_1, content); 
+    // ft__list__push__front(ptr_to_node_1, content); 
 
 
 

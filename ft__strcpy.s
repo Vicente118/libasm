@@ -8,7 +8,7 @@ ft__strcpy:
     mov     rcx, 0
 
 loop:
-    mov     al, BYTE [rsi + rcx]
+    mov     al, byte [rsi + rcx]
     mov     [rdi + rcx], al 
     cmp     al, 0
     je      exit
