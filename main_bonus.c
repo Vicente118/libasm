@@ -29,8 +29,9 @@ int main()
     node_3.next    = NULL;
 
     //// LIST SIZE ////
-    int list_size = ft__list__size(&node_1);
+    int list_size       = ft__list__size(&node_1);
     int empty_list_size = ft__list__size(NULL);
+
     printf("Size of the list = %d\n", list_size);
     printf("Size of the list = %d\n", empty_list_size);
 

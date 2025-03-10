@@ -5,7 +5,7 @@ bits 64
 global ft__strlen
 
 ft__strlen:
-    mov     rax, 0
+    xor     rax, rax
 
 loop:
     cmp     byte [rdi + rax], 0

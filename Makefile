@@ -8,7 +8,7 @@ SRCS = ft__strlen.s ft__strcpy.s ft__strcmp.s ft__write.s ft__read.s ft__strdup.
 
 SRCS_BONUS = ft__list__size__bonus.s 
 
-CC = gcc
+CC = gcc -g
 
 # CFLAGS = -Wall -Wextra -Werror
 
@@ -22,7 +22,7 @@ OBJS_BONUS = $(SRCS_BONUS:.s=.o)
 
 
 %.o : %.s 
-	$(NASM) $(NASM_FLAGS) $< -o $@
+	$(NASM) -gdwarf $(NASM_FLAGS) $< -o $@
 
 all : $(LIB)
 
