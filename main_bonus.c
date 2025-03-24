@@ -9,9 +9,11 @@ typedef struct s_list
     struct s_list   *next;
 }                   t_list;
 
+int     ft_strcmp(const char *s1, const char *s2);
+
 int     ft__list__size(t_list *begin_list);
 void    ft__list__push__front(t_list **begin_list, void *data);
-
+void    ft__list__sort(t_list **begin_list, int (*cmp)());
 
 int main()
 {
@@ -39,13 +41,28 @@ int main()
     t_list  *ptr_to_node_1 = &node_1;
     char    *content       = strdup("Content 0");
 
-    // ft__list__push__front(ptr_to_node_1, content); 
+    ft__list__push__front(&ptr_to_node_1, content); 
+    printf("Size of the list = %d\n", ft__list__size(ptr_to_node_1));
 
 
-
+    //// SORT LIST ////
+    int (*cmp)() = &ft_strcmp;
+    
+    ft__list__sort(&ptr_to_node_1, cmp);
 
     //// FREE ////
     free(content);
 
     return 0;
+}
+
+int     ft_strcmp(const char *s1, const char *s2)
+{
+    int i = 0;
+
+    while (s1[i] && s1[i] == s2[i])
+    {
+        i++;
+    }
+    return (int)(s1[i] - s2[i]);
 }

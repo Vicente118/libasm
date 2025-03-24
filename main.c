@@ -60,6 +60,8 @@ int main()
     char *buffer = malloc(1024);
     memset(buffer, 0, 1024);
 
+    ft__write(1, "Program waits for an input: ", 28);
+
     res = ft__read(1, buffer, 1024);
 
     if (res == -1)
@@ -67,7 +69,7 @@ int main()
         perror("Error: ");
     }
 
-    printf("%s", buffer);
+    printf("%s\n", buffer);
 
     res = ft__read(-1, buffer, 1024);
 

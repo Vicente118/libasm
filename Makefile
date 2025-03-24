@@ -6,15 +6,15 @@ LIB = libasm.a
 
 SRCS = ft__strlen.s ft__strcpy.s ft__strcmp.s ft__write.s ft__read.s ft__strdup.s
 
-SRCS_BONUS = ft__list__size__bonus.s 
+SRCS_BONUS = ft__list__size__bonus.s ft__list__push__front__bonus.s ft__list__sort__bonus.s
 
-CC = gcc -g
+CC = clang -g
 
 # CFLAGS = -Wall -Wextra -Werror
 
 NASM = nasm 
 
-NASM_FLAGS = -f elf64
+NASM_FLAGS = -f elf64 -gdwarf 
 
 OBJS = $(SRCS:.s=.o)
 
@@ -22,21 +22,21 @@ OBJS_BONUS = $(SRCS_BONUS:.s=.o)
 
 
 %.o : %.s 
-	$(NASM) -gdwarf $(NASM_FLAGS) $< -o $@
+	$(NASM) $(NASM_FLAGS) $< -o $@
 
 all : $(LIB)
 
 $(LIB) : $(OBJS)
 	ar rcs $(LIB) $(OBJS)
 
-bonus : $(OBJS) $(OBJS_BONUS)
+bonus : $(LIB) $(OBJS_BONUS)
 	ar rcs $(LIB) $(OBJS) $(OBJS_BONUS)
 
 test :
-	$(CC) $(CFLAGS) -no-pie main.c $(LIB) -o $(NAME)
+	$(CC) $(CFLAGS) main.c $(LIB) -o $(NAME) 
 
 test_bonus :
-	$(CC) $(CFLAGS) -no-pie main_bonus.c $(LIB) -o $(NAME_BONUS)
+	$(CC) $(CFLAGS) main_bonus.c $(LIB) -o $(NAME_BONUS)
 
 clean :
 	rm -f $(OBJS) $(OBJS_BONUS)
