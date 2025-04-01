@@ -5,6 +5,8 @@ bits 64
 global ft__strcpy
 
 ft__strcpy:
+    push    rbp
+    mov     rbp, rsp
     mov     rcx, 0
 
 loop:
@@ -17,4 +19,5 @@ loop:
 
 exit:
     mov     rax, rdi
+    leave
     ret

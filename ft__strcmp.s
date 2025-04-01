@@ -5,6 +5,8 @@ bits 64
 global ft__strcmp
 
 ft__strcmp:
+    push    rbp
+    mov     rbp, rsp
     mov     rcx, 0
 
 loop:
@@ -20,7 +22,9 @@ loop:
 diff:
     sub     al, ah
     movsx   rax, al
+    leave
     ret
 exit:
     mov     rax, 0
+    leave
     ret

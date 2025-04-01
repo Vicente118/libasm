@@ -5,6 +5,8 @@ bits 64
 global ft__strlen
 
 ft__strlen:
+    push    rbp
+    mov     rbp, rsp
     xor     rax, rax
 
 loop:
@@ -13,4 +15,5 @@ loop:
     inc     rax
     jmp     loop
 exit:
+    leave
     ret
