@@ -6,7 +6,7 @@ LIB = libasm.a
 
 SRCS = ft__strlen.s ft__strcpy.s ft__strcmp.s ft__write.s ft__read.s ft__strdup.s
 
-SRCS_BONUS = ft__list__size__bonus.s ft__list__push__front__bonus.s ft__list__sort__bonus.s
+SRCS_BONUS = ft__list__size__bonus.s ft__list__push__front__bonus.s ft__list__sort__bonus.s ft__list__remove__if__bonus.s
 
 CC = clang -g
 

@@ -5,6 +5,7 @@ global ft__list__sort
 ft__list__sort:
     push    rbp
     mov     rbp, rsp
+    
     push    rbx                    ;; Sauvegarde des registres callee-saved
     push    r12
     push    r13
@@ -30,7 +31,7 @@ return:
     pop     rbx
     leave
     ret
-    
+
 next_node:
     mov     rbx, qword [rbx + 8]
 check_null:
