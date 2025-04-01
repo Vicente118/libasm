@@ -28,26 +28,26 @@ return:
 next_node:
     mov     rbx, qword [rbx + 8]
 check_null:
-    mov     rax, qword [rbx + 8] ;; Put current->next in rax then check for NULL
+    mov     rax, qword [rbx + 8]   ;; Put current->next in rax then check for NULL
     test    rax, rax
-    jz      return               ;; If not NULL jump to loop, Else just return
+    jz      return                 ;; If not NULL jump to loop, Else just return
 
 loop:
-    mov     rdi, qword [rbx]     ;; put current->data in rdi (first param)
-    mov     rsi, qword [rax]     ;; put current->next->data in rsi (second param)
+    mov     rdi, qword [rbx]       ;; put current->data in rdi (first param)
+    mov     rsi, qword [rax]       ;; put current->next->data in rsi (second param)
     xor     eax, eax
     call    rbp
 
     cmp     eax, 0
-    jle     next_node             ;; jump if less or equal
+    jle     next_node              ;; jump if less or equal
 
-    mov     rdx, qword [rbx]      ;; temp = current->data
+    mov     rdx, qword [rbx]       ;; temp = current->data
 
-    mov     rax, qword [rbx + 8]  ;; current->next into rax
-    mov     rcx, qword [rax]      ;; current->next->data into rcx 
-    mov     qword [rbx], rcx      ;; current->next->data into current->data
+    mov     rax, qword [rbx + 8]   ;; current->next into rax
+    mov     rcx, qword [rax]       ;; current->next->data into rcx 
+    mov     qword [rbx], rcx       ;; current->next->data into current->data
 
-    mov     rbx, qword [r12]      ;; current = *begin_list;
+    mov     rbx, qword [r12]       ;; current = *begin_list;
 
     jmp     check_null
 

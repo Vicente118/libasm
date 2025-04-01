@@ -8,20 +8,22 @@ ft__list__push__front:
     push    rbp
     mov     rbp, rsp
 
-    mov     rbx, rdi       ;; Save rdi (lst)
+    mov     rbx, rdi              ;; Save rdi (lst)
 
-    test    rdi, rdi       ;; Check if rdi is NULL
+    test    rdi, rdi              ;; Check if rdi is NULL
     je      return  
     
-    mov     rdi, 16         ;; To allocate 16 bytes with malloc
+    push    rsi                   ;; Save rsi because malloc erase it for some reason
+
+    mov     rdi, 16               ;; To allocate 16 bytes with malloc
     call    malloc
-    test    rax, rax       ;; Check if malloc failed
+    test    rax, rax              ;; Check if malloc failed
     je      return
 
-    mov     qword [rax], rsi  ;; new->content = data;
+    pop     qword [rax]           ;; new->content = data;
     mov     rdx, qword [rbx]      ;; save *lst in rdx
-    mov     qword [rax + 8], rdx ;; new->next = *lst
-    mov     qword [rbx], rax    ;; *lst = new
+    mov     qword [rax + 8], rdx  ;; new->next = *lst
+    mov     qword [rbx], rax      ;; *lst = new
 
 return:
     leave
