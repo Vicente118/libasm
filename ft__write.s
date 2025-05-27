@@ -4,12 +4,12 @@ extern __errno_location
 global ft__write
 
 ft__write:
-    push    rbp
+    push    rbp                 ;; Init stack frame
     mov     rbp, rsp
-    mov     rax, 1
-    syscall
+    mov     rax, 1              ;; Put 1 into rax
+    syscall                     ;; call write
     test    rax, rax
-    js      error    ;; jump to error label if rax < 0
+    js      error               ;; jump to error label if rax < 0
     leave
     ret
 
