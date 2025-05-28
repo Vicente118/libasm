@@ -1,14 +1,15 @@
 bits 64
 
-global ft__list__sort
+global ft_list_sort
 
-ft__list__sort:
+ft_list_sort:
     push    rbp
     mov     rbp, rsp
     
     push    rbx                    ;; Sauvegarde des registres callee-saved
     push    r12
     push    r13
+    sub     rsp, 8
 
     mov     r12, rdi               ;; put list in r12
     mov     rbx, qword [rdi]       ;; put *list in rbx
@@ -26,6 +27,7 @@ ft__list__sort:
     jnz     loop                   ;; If not NULL jump to loop, Else just return
 
 return:
+    add     rsp, 8
     pop     r13
     pop     r12
     pop     rbx

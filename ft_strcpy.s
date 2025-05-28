@@ -2,11 +2,12 @@
 
 bits 64
 
-global ft__strcpy
+global ft_strcpy
 
-ft__strcpy:
+ft_strcpy:
     push    rbp
     mov     rbp, rsp                    ;; Init stack frame
+    push    rcx
     mov     rcx, 0                      ;; Mov 0 into rcx
 
 loop:
@@ -19,5 +20,6 @@ loop:
 
 exit:
     mov     rax, rdi                    ;; mov rdi into rax (Rax is the return value)
+    pop     rcx
     leave
     ret

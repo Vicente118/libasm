@@ -2,6 +2,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdlib.h>
+# include "colors.h"
 
 typedef struct s_list
 {
@@ -9,65 +10,69 @@ typedef struct s_list
     struct s_list   *next;
 }                   t_list;
 
-char    *ft__strdup(const char *s);
-int     ft__strcmp(const char *s1, const char *s2);
+char    *ft_strdup(const char *s);
+int     ft_strcmp(const char *s1, const char *s2);
 void    print_list(t_list *list);
 void    free_fct(void *data);
 
-int     ft__list__size(t_list *begin_list);
-void    ft__list__push__front(t_list **begin_list, void *data);
-void    ft__list__sort(t_list **begin_list, int (*cmp)());
-void    ft__list__remove__if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
+int     ft_list_size(t_list *begin_list);
+void    ft_list_push_front(t_list **begin_list, void *data);
+void    ft_list_sort(t_list **begin_list, int (*cmp)());
+void    ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 
 int main()
 {
-    t_list      node_1;
-    t_list      node_2;
-    t_list      node_3;
+    t_list *node_1 = malloc(sizeof(t_list));
+    t_list *node_2 = malloc(sizeof(t_list));
+    t_list *node_3 = malloc(sizeof(t_list));
 
-    node_1.content = (char *)ft__strdup("A");
-    node_1.next    = &node_2;
+    node_1->content = ft_strdup("G");
+    node_1->next = node_2;
 
-    node_2.content = (char *)ft__strdup("A");
-    node_2.next    = &node_3;
+    node_2->content = ft_strdup("L");
+    node_2->next = node_3;
 
-    node_3.content = (char *)ft__strdup("A");
-    node_3.next    = NULL;
+    node_3->content = ft_strdup("A");
+    node_3->next = NULL;
+
+    t_list  *ptr_to_node_1 = node_1;
 
     //// LIST SIZE ////
-    int list_size       = ft__list__size(&node_1);
-    int empty_list_size = ft__list__size(NULL);
+    printf(BGREEN "###  ft_list_size()  ###\n" RESET);
+    int list_size       = ft_list_size(node_1);
+    int empty_list_size = ft_list_size(NULL);
 
     printf("Size of the list = %d\n", list_size);
-    printf("Size of the list = %d\n", empty_list_size);
+    printf("Size of the list = %d\n\n\n", empty_list_size);
 
-    //// LIST PUSH FRONT ////
-    t_list  *ptr_to_node_1 = &node_1;
-    char    *data       = ft__strdup("A");
+    // //// LIST PUSH FRONT ////
+    printf(BGREEN "###  ft_list_push_front()  ###\n" RESET);
+    char    *data       = ft_strdup("Z");
 
-    ft__list__push__front(&ptr_to_node_1, data); 
-    printf("Size of the list = %d\n", ft__list__size(ptr_to_node_1));
-    printf("\n");
+    ft_list_push_front(&ptr_to_node_1, data); 
+    printf("Size of the list = %d\n", ft_list_size(ptr_to_node_1));
+    print_list(ptr_to_node_1);
+    printf("\n\n");
 
-    //// SORT LIST ////
-    int (*cmp)() = &ft__strcmp;
+    // SORT LIST ////
+    printf(BGREEN "###  ft_list_sort()  ###\n" RESET);
+    int (*cmp)() = &ft_strcmp;
     
+    ft_list_sort(&ptr_to_node_1, cmp);
     print_list(ptr_to_node_1);
-    printf("\n");
-    ft__list__sort(&ptr_to_node_1, cmp);
-    print_list(ptr_to_node_1);
-
+    printf("\n\n");
 
     //// REMOVE IF ////
-    char    *compared = "A";
-    char    *compared_2 = "R";
+    printf(BGREEN "###  ft_list_remove_if()  ###\n" RESET);
+    char    *compared = "G";
+    // char    *compared_2 = "R";
 
     printf("\n");
-    ft__list__remove__if(&ptr_to_node_1, compared, &ft__strcmp, &free_fct);
+    ft_list_remove_if(&ptr_to_node_1, compared, &ft_strcmp, &free_fct);
     print_list(ptr_to_node_1);
 
     //// FREE ////
-    free(data);
+    // free(data);
 
     return 0;
 }

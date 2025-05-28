@@ -3,10 +3,11 @@ NAME = libasm
 NAME_BONUS = libasm_bonus
 
 LIB = libasm.a
+LIB_BONUS = libasm_bonus.a
 
-SRCS = ft__strlen.s ft__strcpy.s ft__strcmp.s ft__write.s ft__read.s ft__strdup.s
+SRCS = ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s ft_strdup.s
 
-SRCS_BONUS = ft__list__size__bonus.s ft__list__push__front__bonus.s ft__list__sort__bonus.s ft__list__remove__if__bonus.s
+SRCS_BONUS = ft_list_size_bonus.s ft_list_push_front_bonus.s ft_list_sort_bonus.s ft_list_remove_if_bonus.s
 
 CC = clang -g
 
@@ -17,32 +18,37 @@ NASM = nasm
 NASM_FLAGS = -f elf64 -gdwarf 
 
 OBJS = $(SRCS:.s=.o)
-
 OBJS_BONUS = $(SRCS_BONUS:.s=.o)
 
+all: $(LIB)
 
-%.o : %.s 
+%.o: %.s
 	$(NASM) $(NASM_FLAGS) $< -o $@
 
-all : $(LIB)
+$(LIB): $(OBJS)
+	ar rcs $@ $^
 
-$(LIB) : $(OBJS)
-	ar rcs $(LIB) $(OBJS)
+$(LIB_BONUS): $(OBJS) $(OBJS_BONUS)
+	ar rcs $@ $^
 
-bonus : $(LIB) $(OBJS_BONUS)
-	ar rcs $(LIB) $(OBJS) $(OBJS_BONUS)
+bonus: $(LIB_BONUS)
 
-test :
-	$(CC) $(CFLAGS) main.c $(LIB) -o $(NAME) 
+$(NAME): main.c $(LIB)
+	$(CC) $(CFLAGS) $< -o $@ $(LIB)
 
-test_bonus :
-	$(CC) $(CFLAGS) main_bonus.c $(LIB) -o $(NAME_BONUS)
+test: $(NAME)
 
-clean :
+$(NAME_BONUS): main_bonus.c $(LIB_BONUS)
+	$(CC) $(CFLAGS) $< -o $@ $(LIB_BONUS)
+
+test_bonus: $(NAME_BONUS)
+
+clean:
 	rm -f $(OBJS) $(OBJS_BONUS)
 
-fclean : clean
-	rm -f $(LIB) $(NAME) $(NAME_BONUS)
+fclean: clean
+	rm -f $(LIB) $(LIB_BONUS) $(NAME) $(NAME_BONUS)
 
-re : fclean all
+re: fclean all
 
+.PHONY: all bonus clean fclean re test test_bonus

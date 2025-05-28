@@ -2,9 +2,9 @@ bits 64
 
 extern malloc
 
-global ft__list__push__front
+global ft_list_push_front
 
-ft__list__push__front:
+ft_list_push_front:
     push    rbp
     mov     rbp, rsp
 
@@ -14,12 +14,14 @@ ft__list__push__front:
     je      return  
     
     push    rsi                   ;; Save rsi because malloc erase it for some reason
+    sub     rsp, 8
 
     mov     rdi, 16               ;; To allocate 16 bytes with malloc
     call    malloc
     test    rax, rax              ;; Check if malloc failed
     je      return
 
+    add     rsp, 8
     pop     qword [rax]           ;; new->content = data;
     mov     rdx, qword [rbx]      ;; save *lst in rdx
     mov     qword [rax + 8], rdx  ;; new->next = *lst

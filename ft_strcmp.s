@@ -2,9 +2,9 @@
 
 bits 64
 
-global ft__strcmp
+global ft_strcmp
 
-ft__strcmp:
+ft_strcmp:
     push    rbp
     mov     rbp, rsp
     mov     rcx, 0

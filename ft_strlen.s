@@ -2,9 +2,9 @@
 
 bits 64
 
-global ft__strlen
+global ft_strlen
 
-ft__strlen:
+ft_strlen:
     push    rbp                         ;; Init stack frame
     mov     rbp, rsp
     xor     rax, rax                    ;; Put rax to 0

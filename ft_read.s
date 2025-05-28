@@ -1,22 +1,23 @@
 bits 64
 
 extern __errno_location
-global ft__write
+global ft_read
 
-ft__write:
-    push    rbp                 ;; Init stack frame
+ft_read:
+    push    rbp
     mov     rbp, rsp
-    mov     rax, 1              ;; Put 1 into rax
-    syscall                     ;; call write
+
+    mov     rax, 0
+    syscall
     test    rax, rax
-    js      error               ;; jump to error label if rax < 0
+    js      error
     leave
     ret
 
 error:
     neg     rax               ;; Errno value negative to positive
     push    rax               ;; Save errno value on the stack
-    call    __errno_location wrt ..plt ;; This put the address of errno in rax
+    call    __errno_location wrt ..plt  ;; This put the address of errno in rax
     pop     qword [rax]       ;; Pop the errno value off the stack and putting the value into the address of errno
     mov     rax, -1           ;; Return value = -1
     leave

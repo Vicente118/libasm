@@ -1,8 +1,8 @@
 bits 64
 
-global ft__list__size
+global ft_list_size
 
-ft__list__size:
+ft_list_size:
     push    rbp
     mov     rbp, rsp
     xor     rax, rax   ; [rax] = 0
