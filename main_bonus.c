@@ -37,7 +37,7 @@ int main()
 
     t_list  *ptr_to_node_1 = node_1;
 
-    //// LIST SIZE ////
+    /// LIST SIZE ///
     printf(BGREEN "###  ft_list_size()  ###\n" RESET);
     int list_size       = ft_list_size(node_1);
     int empty_list_size = ft_list_size(NULL);
@@ -45,7 +45,7 @@ int main()
     printf("Size of the list = %d\n", list_size);
     printf("Size of the list = %d\n\n\n", empty_list_size);
 
-    // //// LIST PUSH FRONT ////
+    /// LIST PUSH FRONT ///
     printf(BGREEN "###  ft_list_push_front()  ###\n" RESET);
     char    *data       = ft_strdup("Z");
 
@@ -54,7 +54,7 @@ int main()
     print_list(ptr_to_node_1);
     printf("\n\n");
 
-    // SORT LIST ////
+    /// SORT LIST ////
     printf(BGREEN "###  ft_list_sort()  ###\n" RESET);
     int (*cmp)() = &ft_strcmp;
     
@@ -62,17 +62,8 @@ int main()
     print_list(ptr_to_node_1);
     printf("\n\n");
 
-    //// REMOVE IF ////
-    printf(BGREEN "###  ft_list_remove_if()  ###\n" RESET);
-    char    *compared = "G";
-    // char    *compared_2 = "R";
-
-    printf("\n");
-    ft_list_remove_if(&ptr_to_node_1, compared, &ft_strcmp, &free_fct);
-    print_list(ptr_to_node_1);
-
-    //// FREE ////
-    // free(data);
+    ////////////////
+    /// ATOI BASE ///
 
     return 0;
 }

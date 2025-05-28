@@ -9,57 +9,70 @@ ft_list_sort:
     push    rbx                    ;; Sauvegarde des registres callee-saved
     push    r12
     push    r13
+    push    r14                    
+    push    r15                    ;; Ajouter r15 pour sauvegarder temporairement
     sub     rsp, 8
 
-    mov     r12, rdi               ;; put list in r12
-    mov     rbx, qword [rdi]       ;; put *list in rbx
-    mov     r13, rsi               ;; put cmp pointer in r13
-
-    test    r12, r12               ;; Check NULL for list
-    jz      return  
-    test    rbx, rbx               ;; Check NULL for *list
+    test    rdi, rdi               ;; Check NULL for list
     jz      return
-    test    r13, r13               ;; Check NULL for cmp()  
+    mov     r12, rdi               ;; r12 = begin_list
+    
+    test    rsi, rsi               ;; Check NULL for cmp
     jz      return
+    mov     r13, rsi               ;; r13 = cmp
 
-    mov     rax, qword [rbx + 8]   ;; Put current->next in rax then check for NULL
-    test    rax, rax 
-    jnz     loop                   ;; If not NULL jump to loop, Else just return
+check_first:
+    mov     rbx, [r12]             ;; rbx = *begin_list (current)
+    test    rbx, rbx               
+    jz      return                 ;; Si la liste est vide, sortir
+    
+outer_loop:
+    mov     r14, rbx               ;; r14 = current
+    
+inner_loop:
+    mov     r15, [r14 + 8]         ;; r15 = current->next
+    test    r15, r15
+    jz      advance_outer          ;; Si next est NULL, avancer dans la boucle externe
+    
+    mov     rdi, [r14]             ;; rdi = current->content
+    mov     rsi, [r15]             ;; rsi = next->content
+    
+    push    rbx                    ;; IMPORTANT: Préserver tous les registres
+    push    r12                    ;; qui peuvent être modifiés par l'appel
+    push    r14
+    push    r15
+    
+    call    r13                    ;; Appeler cmp
+    
+    pop     r15                    ;; IMPORTANT: Restaurer les registres
+    pop     r14
+    pop     r12
+    pop     rbx
+    
+    test    eax, eax
+    jle     next_inner             ;; Si <= 0, pas besoin de swap
+    
+    mov     rdi, [r14]             ;; tmp = current->content
+    mov     rsi, [r15]             ;; rsi = next->content
+    mov     [r14], rsi             ;; current->content = next->content
+    mov     [r15], rdi             ;; next->content = tmp
+    
+next_inner:
+    mov     r14, r15               ;; current = next
+    jmp     inner_loop             ;; Continuer boucle interne
+    
+advance_outer:
+    mov     rbx, [rbx + 8]         ;; current = current->next
+    test    rbx, rbx
+    jz      return                 ;; Si NULL, fin du tri
+    jmp     outer_loop             ;; Sinon, continuer boucle externe
 
 return:
     add     rsp, 8
+    pop     r15
+    pop     r14
     pop     r13
     pop     r12
     pop     rbx
     leave
     ret
-
-next_node:
-    mov     rbx, qword [rbx + 8]
-check_null:
-    mov     rax, qword [rbx + 8]   ;; Put current->next in rax then check for NULL
-    test    rax, rax
-    jz      return                 ;; If not NULL jump to loop, Else just return
-
-loop:
-    mov     rdi, qword [rbx]       ;; put current->data in rdi (first param)
-    mov     rsi, qword [rax]       ;; put current->next->data in rsi (second param)
-    xor     eax, eax
-    call    r13
-
-    cmp     rax, 0
-    jle     next_node              ;; jump if less or equal
-
-    mov     rdx, qword [rbx]       ;; temp = current->data
-
-    mov     rax, qword [rbx + 8]   ;; current->next into rax
-    mov     rcx, qword [rax]       ;; current->next->data into rcx 
-    mov     qword [rbx], rcx       ;; current->next->data into current->data
-    mov     qword [rax], rdx       ;; current->next->data = temp
-
-    mov     rbx, qword [r12]       ;; current = *begin_list;
-
-    jmp     check_null
-
-
-;; t_list *current = *lst;
