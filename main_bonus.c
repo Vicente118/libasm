@@ -62,9 +62,6 @@ int main()
     print_list(ptr_to_node_1);
     printf("\n\n");
 
-    ////////////////
-    /// ATOI BASE ///
-
     return 0;
 }
 
@@ -81,9 +78,4 @@ void    print_list(t_list *list)
         tmp = tmp->next;
         i++;
     }
-}
-
-void    free_fct(void *data)
-{
-	free(data);
 }
